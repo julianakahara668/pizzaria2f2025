@@ -1,27 +1,33 @@
+// ferramenta de consumo de rotas (endpoints) do backend
 import axios from "axios"
+// Hook do react - estado e renderização
+import { useState, useEffect } from "react"
 
-const Produtos =() => {
-// Consumo do endpoint com as pizzas 
-axios.get("http://172.19.0.49/pizzariaoficial/api/v1/produto")
-.then(response=>{
-    console.log(response.data)
-    
-}
+    const Produtos = () => {
+        // Estado com lista de pizzas
+        const [pizzas,setPizzas] = useState(['Calabresa', 'Muçarela', 'Baiana'])
 
-)
-// Interação da lista de pizzas 
+    //consumo de um endpoint com pizzas
+    // GET - busca os dados do endpoint ou rota
+    // THEN - é uma Promise - método assíncrono
+    useEffect(()=>{
+    axios.get("http://172.19.0.49/pizzariaoficial/api/v1/produto")
+    .then(response=>{
+            console.log(response.data.data)
+            setPizzas(response.data.data)
+        })
+        .catch(errors=>console.log(errors))
+    },[])
 
-const listaPizzas = pizzas.map(pizzas=><li>{pizza}</li>)
+    //Interação da lista de pizzas
+    const listaPizzas = pizzas.map(pizza => <li>{pizza.nome}</li>)
+ 
     return (
         <div>
             <ul>
-                <li>Pizza de Muçarela</li>
-                <li>Pizza de calabresa</li>
-                <li>Pizza Portuguesa</li>
-                <li>Pizza Baiana</li>
+                {listaPizzas}
             </ul>
         </div>
     )
 }
-
 export default Produtos
